@@ -1,0 +1,37 @@
+CS 6787 Project Tech Help
+
+Hello, 
+
+These files are part of a branched repo of the Facebook AI Research Sequence-to-Sequence Toolkit written in Python, so there are a lot of files I haven't touched. 
+
+Relevant Files
+-train.py
+-generate.py
+-compression.py
+-fconv.py
+-conv_tbc
+
+For my experiments, I utilized the pre-trained translation model described in the ConvS2S paper. (Gehring et al. (2017): Convolutional Sequence to Sequence Learning).
+(In my proposal, I mentioned using a summarization model that I am working on another class. As I was working on this, the convergence of that model was proving difficult. 
+Similarly, my summarization model is smaller due to computation constraints, so I think the translation model is a better case for compression regardless. And there are more related
+works) 
+
+The dataset preprocess is somewhat straightforward. I utilized the newtest2014 for my test set. For my training, I utilized previous years test sets (no overlap) for fine-tuning
+after pruning. 
+
+I did not fully retrain the model from scratch since the computation resources needed were too large. 
+
+My compression techniques are contained in compression.py. They are mostly helper functions that I would call in either train.py or generate.py
+
+Explanation. 
+train.py will train the model (either from scratch or a checkpoint). I didn't not include a checkpoint in this .zip since it is >2 GB. However, a download link can be found
+on the github page.
+
+generate.py will take the test and generate outputs.
+
+I provided a shortcuts file as examples of command line usage. 
+
+
+The most complicated part is the mask generation. I created a ConvTBC class with mask arrays in conv_tbc. Then in linarized_convolutions.py and fconv.py you have to switch which ConvTBC is being imported. 
+That allows you to use mask generation in compression.py 
+
